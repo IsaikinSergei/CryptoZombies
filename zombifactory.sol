@@ -1,4 +1,4 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.4.25;
 
 import "./ownable.sol";
 
@@ -26,11 +26,11 @@ contract ZombieFactory is Ownable {
         uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1;
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
-        NewZombie(id, _name, _dna);
+        emit NewZombie(id, _name, _dna);
     }
 
     function _generateRandomDna(string _str) private view returns (uint) {
-        uint rand = uint(keccak256(_str));
+        uint rand = uint(keccak256(abi.encodePacked(_str)));
         return rand % dnaModulus;
     }
 
